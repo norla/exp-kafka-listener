@@ -1,0 +1,27 @@
+{
+  "name": "xpr-kafka-listener",
+  "version": "0.1.0",
+  "description": "Simple stream-based kafka listener",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norla/xpr-kafka-listener.git"
+  },
+  "keywords": [
+    "kafka",
+    "listener",
+    "stream"
+  ],
+  "author": "Mattias Norlander",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/norla/xpr-kafka-listener/issues"
+  },
+  "homepage": "https://github.com/norla/xpr-kafka-listener#readme",
+  "dependencies": {
+    "node-rdkafka": "^2.7.1"
+  }
+}

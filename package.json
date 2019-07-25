@@ -1,5 +1,5 @@
 {
-  "name": "xpr-kafka-listener",
+  "name": "exp-kafka-listener",
   "version": "0.1.0",
   "description": "Simple stream-based kafka listener",
   "main": "index.js",

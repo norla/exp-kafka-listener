@@ -13,7 +13,7 @@ function calculateLag(stats, topicName) {
     .reduce((a, b) => a + b, 0);
 }
 
-function listen(kafkaConfig, topics, groupId) {
+function listen(kafkaConfig, groupId, topics) {
   const api = new EventEmitter();
 
   const consumerConf = {
@@ -25,6 +25,10 @@ function listen(kafkaConfig, topics, groupId) {
     "group.id": groupId
   };
 
+  if (process.env.NODE_DEBUG && process.env.NODE_DEBUG.includes("xpr-kafka-listener")) {
+    consumerConf.debug = "consumer,cgrp,topic"
+  }
+
   if (kafkaConfig.username) {
     consumerConf["security.protocol"] = "sasl_plaintext";
     consumerConf["sasl.mechanism"] = "PLAIN";
@@ -33,14 +37,14 @@ function listen(kafkaConfig, topics, groupId) {
   }
 
   const topicConfig = { "auto.offset.reset": kafkaConfig.fromOffset || "earliest" };
-  debugLog("Starting Kafka listener using conf: ", kafkaConfig);
+  debuglog("Starting Kafka listener using conf: ", kafkaConfig);
 
-  const kafkaReader = kafka.KafkaConsumer.createReadStream(consumerConfig, topicConfig, {
+  const kafkaReader = kafka.KafkaConsumer.createReadStream(consumerConf, topicConfig, {
     topics: topics,
     fetchSize: kafkaConfig.fetchSize || 500
   });
 
-  kafkaReader.consumer.on("ready", () => debuglog(`Consumer ${kafkaConfig.groupId} ready`));
+  kafkaReader.consumer.on("ready", () => api.emit("ready"));
   kafkaReader.consumer.on("event.error", (e) => api.emit("error", e));
   kafkaReader.consumer.on("event.log", (e) => debuglog("rdkafka log", e));
   kafkaReader.consumer.on("event", (e) => debuglog("rdkafka event", e));
@@ -50,7 +54,7 @@ function listen(kafkaConfig, topics, groupId) {
   function statsHandler({ message }) {
     try {
       const statsData = JSON.parse(message);
-      const lag = calculateLag(statsData, topic);
+      const lag = calculateLag(statsData, topics);
       Object.assign(stats, {
         time: Date.now(),
         error: null,

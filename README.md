@@ -6,8 +6,9 @@ Calculates metrics on lag and group consumption rate.
 ## API
 Exposes a single funtion that returns an object used for streaming messages and consuming 
 ```
-listen(options, groupId, topic(s)) 
+listen(options, groupId, topics) 
 ```
+
 See examples below for more info.
 
 __Options__
@@ -36,7 +37,7 @@ const kafkaOptions = {
   autoCommit: false
 }
 
-const listener = kafka.listen("my-group-id", "my-topic");
+const listener = kafka.listen("my-group-id", ["my-topic"]);
 
 const msgHandler = through.obj((msg, _encoding, done) => {
   const payload = msg.value;
@@ -74,7 +75,7 @@ const kafkaOptions = {
   autoCommit: true
 }
 
-const listener = kafka.listen("my-group-id", "my-topic");
+const listener = kafka.listen("my-group-id", ["my-topic"]);
 
 const msgHandler = through.obj((msg, _encoding, done) => {
   const payload = msg.value;
@@ -103,7 +104,7 @@ const kafkaOptions = {
   autoCommit: true
 }
 
-const listener = kafka.listen("my-group-id", "my-topic");
+const listener = kafka.listen("my-group-id", ["my-topic"]);
 listener.readStream.on("data", (msg) => {
   // .. go to town
 });

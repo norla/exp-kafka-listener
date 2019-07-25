@@ -1,11 +1,22 @@
 # xpr-kafka-listener
 
 Simple stream-based kafka listener based on node-rdkafka.
-Focus on minimizing data loss over high throughput.
+Calculates metrics on lag and group consumption rate.
 
 ## API
+Exposes a single funtion that returns an object used for streaming messages and consuming 
+```
+listen(options, groupId, topic(s)) 
+```
+See examples below for more info.
 
-## Configration options
+### Options
+ * __host__: Comma-separated list of kafka hosts
+ * __username__: If set, SASL/PLAIN authentication will be used when connecting
+ * __password__: Password for SASL authentication
+ * __autoCommit__: Automatically commit messeges every 5 seconds. Default false
+ * __fetchSize__: Kafka fetch size, default 500
+ * __fromOffset__: Kafka start offset, default "latest"
 
 ## Examples
 
@@ -15,7 +26,7 @@ Use this if you want to be sure that all messages are processed before being com
 Any in-flight messages will be re-sent in case of a process crash/restart. Back-pressure
 is handled by node js streams so the fetch rate is adjusted to the consumtion rate.
 
-```
+```js
 const kafka = require("exp-kafka-listener");
 const through = require("through2");
 const {pipeline} = require("stream");
@@ -54,7 +65,7 @@ Back-pressure is handled by node js streams so the fetch rate is adjusted to the
 Therefore the number of in-flight messages are usually low.
 
 
-```
+```js
 const kafka = require("exp-kafka-listener");
 const through = require("through2");
 const {pipeline} = require("stream");
@@ -85,7 +96,7 @@ The simplest and fastest of consuming messages. Backpressure is not dealt with s
 consumtion is slow lots of messages are be left hanging in-flight and likely not
 redelivered in case of crashes/restarts.
 
-```
+```js
 const kafka = require("exp-kafka-listener");
 
 const kafkaOptions = {

@@ -2,7 +2,7 @@
 "use strict";
 
 const kafka = require("node-rdkafka");
-const debuglog = require("util").debuglog("xpr-kafka-listener");
+const debuglog = require("util").debuglog("exp-kafka-listener");
 const {EventEmitter} = require("events");
 
 function calculateLag(stats, topicName) {
@@ -25,7 +25,7 @@ function listen(kafkaConfig, groupId, topics) {
     "group.id": groupId
   };
 
-  if (process.env.NODE_DEBUG && process.env.NODE_DEBUG.includes("xpr-kafka-listener")) {
+  if (process.env.NODE_DEBUG && process.env.NODE_DEBUG.includes("exp-kafka-listener")) {
     consumerConf.debug = "consumer,cgrp,topic"
   }
 

@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/norla/xpr-kafka-listener.git"
+    "url": "git+https://github.com/BonnierNews/exp-kafka-listener.git"
   },
   "keywords": [
     "kafka",
@@ -18,9 +18,9 @@
   "author": "Mattias Norlander",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/norla/xpr-kafka-listener/issues"
+    "url": "https://github.com/BonnierNews/exp-kafka-listener/issues"
   },
-  "homepage": "https://github.com/norla/xpr-kafka-listener#readme",
+  "homepage": "https://github.com/BonnierNews/exp-kafka-listener#readme",
   "dependencies": {
     "mocha": "^6.2.0",
     "node-rdkafka": "^2.7.1",

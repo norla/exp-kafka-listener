@@ -10,17 +10,17 @@ listen(options, groupId, topic(s))
 ```
 See examples below for more info.
 
-### Options
- * __host__: Comma-separated list of kafka hosts
- * __username__: If set, SASL/PLAIN authentication will be used when connecting
- * __password__: Password for SASL authentication
- * __autoCommit__: Automatically commit messeges every 5 seconds. Default false
- * __fetchSize__: Kafka fetch size, default 500
- * __fromOffset__: Kafka start offset, default "latest"
+__Options__
+ * __host__: Comma-separated list of kafka hosts.
+ * __username__: If set, SASL/PLAIN authentication will be used when connecting.
+ * __password__: Password for SASL authentication.
+ * __autoCommit__: Automatically commit messeges every 5 seconds, default false.
+ * __fetchSize__: Kafka fetch size, default 500.
+ * __fromOffset__: Kafka start offset, default "latest".
 
 ## Examples
 
-### No message loss and backpressure: Manual commits and streams
+__Manual commits and streams__
 
 Use this if you want to be sure that all messages are processed before being committed.
 Any in-flight messages will be re-sent in case of a process crash/restart. Back-pressure
@@ -57,13 +57,12 @@ pipeline(listener.readStream, msgHandler, commitHandler, (err) {
 
 ```
 
-### Potentially some message loss and backpressure: Autocommit and streams
+__Autocommit and streams__
 
-Use this if you don't care about losing in-flight messages during restarts.
-Messages will be automaticallt committed every five seconds.
+Use this if you don't care about losing a few in-flight messages during restarts.
+Messages will be automatically committed every five seconds.
 Back-pressure is handled by node js streams so the fetch rate is adjusted to the consumtion rate.
-Therefore the number of in-flight messages are usually low.
-
+Therefore the number of in-flight messages is usually low.
 
 ```js
 const kafka = require("exp-kafka-listener");
@@ -92,8 +91,8 @@ pipeline(listener.readStream, msgHandler, (err) {
 
 ### Autocommit scenario ignoring beckpressure
 
-The simplest and fastest of consuming messages. Backpressure is not dealt with so if
-consumtion is slow lots of messages are be left hanging in-flight and likely not
+The simplest and fastest of consuming messages. However ackpressure is not dealt with so if
+consumtion is slow many messages left hanging in-flight and likely not
 redelivered in case of crashes/restarts.
 
 ```js

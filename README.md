@@ -1,4 +1,4 @@
-# xpr-kafka-listener
+# exp-kafka-listener
 
 Simple stream-based kafka listener based on node-rdkafka.
 Calculates metrics on lag and group consumption rate.

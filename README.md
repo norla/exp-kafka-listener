@@ -4,17 +4,19 @@ Simple stream-based kafka listener based on node-rdkafka.
 Calculates metrics on lag and group consumption rate.
 
 ## API
-Exposes a single funtion that returns an object used for streaming messages and consuming 
+Exposes a single funtion that returns an object used for streaming messages and consuming
 ```
 const kafka = require("exp-kafka-listener");
 const listener = listen(options, groupId, topics);
 const readStream = listener.readStream;
-const stats = listener.stats;
 ```
 
 See examples below for more info.
 
+
+
 __Options__
+
  * __host__: Comma-separated list of kafka hosts.
  * __username__: If set, SASL/PLAIN authentication will be used when connecting.
  * __password__: Password for SASL authentication.
@@ -22,10 +24,17 @@ __Options__
  * __fetchSize__: Kafka fetch size, default 500.
  * __fromOffset__: Kafka start offset, default "latest".
 
-__Stats__
+__Events__
 
-* __lag:__  Number of messages waiting to be processed in topics
-* __shrinkRate:__ Shrink rate for topics per second
+The object returned from "listen" is an event emitter that emits the following events:
+
+* __'ready'__: Emitted once the listener has successfully connected to the kafka cluster.
+* __'stats'__: Emitted on a regular interval, supplies an object with the following props
+  - __lag__: Total lag for consumer group
+  - __messageRate__: Message consumption rate for consumer group (will be negative if
+    producers are faster than consumers)
+  - __error__: If an error occured when stats were calculated
+  - __time__: Timestanp when stats were generated
 
 ## Examples
 
@@ -121,7 +130,7 @@ listener.readStream.on("data", (msg) => {
 
 ## Further reading
 
-Node js streams: 
+Node js streams:
 node-rdkafka
 
 

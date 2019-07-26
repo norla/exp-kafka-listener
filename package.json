@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/BonnierNews/exp-kafka-listener#readme",
   "dependencies": {
+    "node-rdkafka": "^2.7.1"
+  },
+  "devDependencies": {
     "mocha": "^6.2.0",
-    "node-rdkafka": "^2.7.1",
     "through2": "^3.0.1"
   }
 }

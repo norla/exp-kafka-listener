@@ -24,7 +24,7 @@ __Options__
 
 __Stats__
 
-* __lag:__ * Number of messages waiting to be processed in topics
+* __lag:__  Number of messages waiting to be processed in topics
 * __shrinkRate:__ Shrink rate for topics per second
 
 ## Examples

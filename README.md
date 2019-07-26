@@ -6,7 +6,10 @@ Calculates metrics on lag and group consumption rate.
 ## API
 Exposes a single funtion that returns an object used for streaming messages and consuming 
 ```
-listen(options, groupId, topics) 
+const kafka = require("exp-kafka-listener");
+const listener = listen(options, groupId, topics);
+const readStream = listener.readStream;
+const stats = listener.stats;
 ```
 
 See examples below for more info.
@@ -18,6 +21,11 @@ __Options__
  * __autoCommit__: Automatically commit messeges every 5 seconds, default false.
  * __fetchSize__: Kafka fetch size, default 500.
  * __fromOffset__: Kafka start offset, default "latest".
+
+__Stats__
+
+* __lag:__ * Number of messages waiting to be processed in topics
+* __shrinkRate:__ Shrink rate for topics per second
 
 ## Examples
 

@@ -20,7 +20,6 @@ function listen(kafkaConfig, groupId, topics) {
 
   const consumerConf = {
     "metadata.broker.list": kafkaConfig.host,
-    "client.id": "gam-mrss-feed",
     "enable.auto.commit": !!kafkaConfig.autocommit,
     "statistics.interval.ms": 30000,
     "rebalance_cb": true,

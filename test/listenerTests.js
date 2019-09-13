@@ -52,7 +52,7 @@ describe("exp-kafka-listener", () => {
       listener.on("ready", done);
     });
 
-    it("should give is us a workig message stream via the readStream property", (done) => {
+    it("should give us a working message stream via the readStream property", (done) => {
       const receivedMsgs = [];
       const msgHandler = through.obj((msg, _enc, cb) => {
         receivedMsgs.push(String(msg.value));

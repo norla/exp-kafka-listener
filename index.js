@@ -21,7 +21,7 @@ function listen(kafkaConfig, groupId, topics) {
     "metadata.broker.list": kafkaConfig.host,
     "client.id": `xpr-kafka-listner-${getProductName()}`,
     "enable.auto.commit": !!kafkaConfig.autocommit,
-    "statistics.interval.ms": 30000,
+    "statistics.interval.ms": kafkaConfig.statsInterval || 30000,
     "group.id": groupId
   };
 

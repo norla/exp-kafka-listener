@@ -4,7 +4,7 @@ Simple stream-based kafka listener based on node-rdkafka.
 Calculates metrics on lag and group consumption rate.
 
 ## API
-Exposes a single funtion that returns an object used for streaming messages and consuming
+Exposes a single function that returns an object used for streaming messages and consuming.
 ```
 const kafka = require("exp-kafka-listener");
 const listener = listen(options, groupId, topics);
@@ -23,6 +23,7 @@ __Options__
  * __autoCommit__: Automatically commit messeges every 5 seconds, default false.
  * __fetchSize__: Kafka fetch size, default 500.
  * __fromOffset__: Kafka start offset, default "latest".
+ * __statsInterval__: The rate at which statistics are reported (in ms), default 30000.
 
 __Events__
 
@@ -34,7 +35,7 @@ The object returned from "listen" is an event emitter that emits the following e
   - __messageRate__: Message consumption rate for consumer group (will be negative if
     producers are faster than consumers)
   - __error__: If an error occured when stats were calculated
-  - __time__: Timestanp when stats were generated
+  - __time__: Timestamp when stats were generated
 
 ## Examples
 
@@ -42,7 +43,7 @@ __Manual commits and streams__
 
 Use this if you want to be sure that all messages are processed before being committed.
 Any in-flight messages will be re-sent in case of a process crash/restart. Back-pressure
-is handled by node js streams so the fetch rate is adjusted to the consumtion rate.
+is handled by node js streams so the fetch rate is adjusted to the consumption rate.
 
 ```js
 const kafka = require("exp-kafka-listener");
@@ -107,10 +108,10 @@ pipeline(listener.readStream, msgHandler, (err) {
 });
 ```
 
-### Autocommit scenario ignoring beckpressure
+### Autocommit scenario ignoring backpressure
 
-The simplest and fastest of consuming messages. However ackpressure is not dealt with so if
-consumtion is slow many messages left hanging in-flight and likely not
+The simplest and fastest of consuming messages. However, backpressure is not dealt with so if
+consumption is slow many messages left hanging in-flight and likely not
 redelivered in case of crashes/restarts.
 
 ```js

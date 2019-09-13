@@ -23,7 +23,6 @@ function listen(kafkaConfig, groupId, topics) {
     "client.id": "gam-mrss-feed",
     "enable.auto.commit": !!kafkaConfig.autocommit,
     "statistics.interval.ms": 30000,
-    "rebalance_cb": true,
     "group.id": groupId
   };
 
@@ -50,9 +49,6 @@ function listen(kafkaConfig, groupId, topics) {
   kafkaReader.consumer.on("event.error", (e) => api.emit("error", e));
   kafkaReader.consumer.on("event.log", (e) => debuglog("rdkafka log", e));
   kafkaReader.consumer.on("event", (e) => debuglog("rdkafka event", e));
-  kafkaReader.consumer.on("rebalance", (e, toppars) =>
-    debuglog("kafka rebalance", e, toppars)
-  );
 
   const stats = {};
   function statsHandler({ message }) {

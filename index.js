@@ -17,10 +17,9 @@ function listen(kafkaConfig, groupId, topics) {
   const api = new EventEmitter();
 
   // TODO: Throw error if unknown options are provided
-
   const consumerConf = {
     "metadata.broker.list": kafkaConfig.host,
-    "client.id": "gam-mrss-feed",
+    "client.id": `xpr-kafka-listner-${getProductName()}`,
     "enable.auto.commit": !!kafkaConfig.autocommit,
     "statistics.interval.ms": 30000,
     "group.id": groupId
@@ -73,6 +72,17 @@ function listen(kafkaConfig, groupId, topics) {
     readStream: kafkaReader,
     commit: (msg) => kafkaReader.consumer.commitMessage(msg)
   });
+}
+
+function getProductName() {
+  try {
+    const pkg = require(`/package.json`);
+    const nodeEnv = (process.env.NODE_ENV || "development");
+    return `${pkg.name}-${nodeEnv}`;
+  } catch (e) {
+    debuglog("Failed to get product name", e);
+    return "unknown";
+  }
 }
 
 module.exports = {

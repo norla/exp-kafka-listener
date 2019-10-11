@@ -42,6 +42,9 @@ describe("exp-kafka-listener", () => {
       msgs.forEach((m) => helper.send(topic1, m));
       listener.readStream.pipe(msgHandler);
     });
+    it("should have client id named after package name / NODE_ENV", () => {
+      assert.equal(listener.readStream.consumer.globalConfig['client.id'], "exp-kafka-listener-exp-kafka-listener-development")
+    })
   });
 
   describe("#listen to multiple topics", () => {

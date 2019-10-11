@@ -19,7 +19,7 @@ function listen(kafkaConfig, groupId, topics) {
   // TODO: Throw error if unknown options are provided
   const consumerConf = {
     "metadata.broker.list": kafkaConfig.host,
-    "client.id": `xpr-kafka-listner-${getProductName()}`,
+    "client.id": `exp-kafka-listener-${getProductName()}`,
     "enable.auto.commit": !!kafkaConfig.autocommit,
     "statistics.interval.ms": kafkaConfig.statsInterval || 30000,
     "group.id": groupId
@@ -76,7 +76,7 @@ function listen(kafkaConfig, groupId, topics) {
 
 function getProductName() {
   try {
-    const pkg = require(`/package.json`);
+    const pkg = require("./package.json");
     const nodeEnv = (process.env.NODE_ENV || "development");
     return `${pkg.name}-${nodeEnv}`;
   } catch (e) {

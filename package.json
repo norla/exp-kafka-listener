@@ -1,6 +1,6 @@
 {
   "name": "exp-kafka-listener",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple stream-based kafka listener",
   "main": "index.js",
   "scripts": {

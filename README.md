@@ -3,6 +3,11 @@
 Simple stream-based kafka listener based on node-rdkafka.
 Calculates metrics on lag and group consumption rate.
 
+## Development
+
+`npm run docker:up` to start dependencies.
+`npm test` to run tests.
+
 ## API
 Exposes a single function that returns an object used for streaming messages and consuming.
 ```

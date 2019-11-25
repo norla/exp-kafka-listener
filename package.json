@@ -4,6 +4,7 @@
   "description": "Simple stream-based kafka listener",
   "main": "index.js",
   "scripts": {
+    "docker:up": "docker-compose up -d",
     "test": "mocha"
   },
   "repository": {

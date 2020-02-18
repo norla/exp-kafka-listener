@@ -46,9 +46,9 @@ The object returned from "listen" is an event emitter that emits the following e
 
 __Manual commits and streams__
 
-Use this if you want to be sure that all messages are processed before being committed.
-Any in-flight messages will be re-sent in case of a process crash/restart. Back-pressure
-is handled by node js streams so the fetch rate is adjusted to the consumption rate.
+Use this if you want as low risk as posible of losing messages during crashes/restarts.
+Back-pressure is handled by node js streams so the fetch rate is adjusted to the consumption rate, keeping
+the number of in-flight messages low.
 
 ```js
 const kafka = require("exp-kafka-listener");
@@ -62,17 +62,16 @@ const kafkaOptions = {
 
 const listener = kafka.listen("my-group-id", ["my-topic"]);
 
-const msgHandler = through.obj((msg, _encoding, done) => {
+const msgHandler = through.obj((msg, _encoding, next) => {
   const payload = msg.value;
   someAsyncOperation(payload, (err)) => {
-    done(err);
-    this.push(msg);
+    next(err, msg);
   });
 });
 
-const commitHandler = through.obj((msg, _encoding, done) => {
+const commitHandler = through.obj((msg, _encoding, next) => {
   listener.commit(msg);
-  done();
+  next();
 });
 
 pipeline(listener.readStream, msgHandler, commitHandler, (err) {
@@ -100,11 +99,10 @@ const kafkaOptions = {
 
 const listener = kafka.listen("my-group-id", ["my-topic"]);
 
-const msgHandler = through.obj((msg, _encoding, done) => {
+const msgHandler = through.obj((msg, _encoding, next) => {
   const payload = msg.value;
   someAsyncOperation(payload, (err)) => {
-    done(err);
-    this.push(msg);
+    next(err, next);
   });
 });
 
